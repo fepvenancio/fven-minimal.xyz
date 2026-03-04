@@ -21,18 +21,17 @@
     <meta name="twitter:image" content="https://fven.xyz/fven-image.png">
     
     <style>
-        /* Dracula Theme */
         :root {
-            --bg: #282a36;
-            --fg: #f8f8f2;
-            --comment: #6272a4;
-            --cyan: #8be9fd;
-            --green: #50fa7b;
-            --orange: #ffb86c;
-            --pink: #ff79c6;
-            --purple: #bd93f9;
-            --red: #ff5555;
-            --yellow: #f1fa8c;
+            --bg: #050505;
+            --surface: #0a0a0a;
+            --border: #1a1a1a;
+            --fg: #fafafa;
+            --fg-muted: #a1a1aa;
+            --accent: #10b981; /* Emerald */
+            --accent-muted: #064e3b;
+            --audit: #f59e0b; /* Amber */
+            --font-mono: 'Geist Mono', 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+            --font-sans: 'Inter', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         * {
@@ -41,110 +40,193 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-family: var(--font-sans);
             background-color: var(--bg);
             color: var(--fg);
-            line-height: 1.8;
-            font-size: 15px;
-            padding: 3rem 2rem;
-            max-width: 800px;
+            line-height: 1.6;
+            font-size: 16px;
+            padding: 4rem 2rem;
+            max-width: 720px;
             margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body > * {
+            animation: fadeIn 0.6s ease-out forwards;
         }
 
         h1 {
-            color: var(--green);
-            font-size: 1em;
-            font-weight: normal;
-            margin-bottom: 2rem;
+            font-family: var(--font-mono);
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
         }
 
         h1::before {
-            content: '$ ';
+            content: '~/';
+            opacity: 0.5;
         }
 
         h2 {
-            color: var(--purple);
-            font-size: 1em;
-            font-weight: normal;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--fg-muted);
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            display: inline-block;
         }
 
         p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            color: var(--fg-muted);
+        }
+
+        strong {
+            color: var(--fg);
+            font-weight: 500;
         }
 
         a {
-            color: var(--cyan);
+            color: var(--fg);
             text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s ease;
         }
 
         a:hover {
-            text-decoration: underline;
+            color: var(--accent);
+            border-bottom-color: var(--accent);
         }
 
-        .comment {
-            color: var(--comment);
+        .code-block {
+            font-family: var(--font-mono);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2.5rem;
+            font-size: 0.9rem;
+            overflow-x: auto;
         }
 
-        .prompt {
-            color: var(--green);
-        }
-
-        .keyword {
-            color: var(--pink);
-        }
-
-        .value {
-            color: var(--yellow);
-        }
-
-        .function {
-            color: var(--green);
-        }
+        .keyword { color: #f472b6; }
+        .function { color: #34d399; }
+        .string { color: #fbbf24; }
+        .number { color: #818cf8; }
+        .comment { color: #52525b; font-style: italic; }
 
         .indent {
-            padding-left: 2rem;
+            padding-left: 1.5rem;
+            border-left: 1px solid var(--border);
+            margin-left: 0.25rem;
         }
 
-        .list-item {
+        .item {
+            margin-bottom: 2rem;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
             margin-bottom: 0.5rem;
         }
 
-        .list-item::before {
-            content: '→ ';
-            color: var(--green);
+        .item-title {
+            font-weight: 500;
+            color: var(--fg);
         }
 
-        .date {
-            color: var(--orange);
-        }
-
-        .company {
-            color: var(--purple);
+        .item-meta {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--fg-muted);
         }
 
         .tag {
-            color: var(--comment);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            background: var(--border);
+            color: var(--fg-muted);
+            padding: 0.1rem 0.4rem;
+            border-radius: 3px;
+            margin-right: 0.4rem;
+            display: inline-block;
         }
 
-        .tag::before {
-            content: '[';
+        .status-live {
+            color: var(--accent);
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            margin-left: 0.5rem;
+            font-weight: 600;
         }
 
-        .tag::after {
-            content: ']';
+        .status-audit {
+            color: var(--audit);
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            margin-left: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .status {
-            color: var(--green);
+        .nav {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
         }
 
-        @media (max-width: 768px) {
+        .nav a {
+            border: none;
+            color: var(--fg-muted);
+        }
+
+        .nav a:hover {
+            color: var(--fg);
+        }
+
+        .footer {
+            margin-top: 4rem;
+            color: #3f3f46;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+        }
+
+        .section-desc {
+            margin-top: -1rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 640px) {
             body {
-                font-size: 14px;
-                padding: 2rem 1rem;
+                padding: 3rem 1.5rem;
+            }
+            .item-header {
+                flex-direction: column;
+                gap: 0.25rem;
             }
         }
     </style>
@@ -152,137 +234,139 @@
 <body id="top">
     <h1>whoami</h1>
     
-    <p><span class="keyword">const</span> <span class="function">filipe</span> = {</p>
-    <div class="indent">
-        <p><span class="keyword">name</span>: <span class="value">"Filipe Venancio"</span>,</p>
-        <p><span class="keyword">role</span>: <span class="value">"Techlead"</span>,</p>
-        <p><span class="keyword">company</span>: <span class="value">"Keyrock"</span>,</p>
-        <p><span class="keyword">focus</span>: <span class="value">"Building DeFi Infrastructure"</span>,</p>
-        <p><span class="keyword">defiSince</span>: <span class="value">2020</span>,</p>
-        <p><span class="keyword">totalExp</span>: <span class="value">2008</span></p>
+    <div class="code-block">
+        <div><span class="keyword">const</span> <span class="function">filipe</span> = {</div>
+        <div class="indent">
+            <div>name: <span class="string">"Filipe Venancio"</span>,</div>
+            <div>role: <span class="string">"Techlead"</span>,</div>
+            <div>company: <span class="string">"Keyrock"</span>,</div>
+            <div>focus: <span class="string">"DeFi Infrastructure"</span>,</div>
+            <div>defiSince: <span class="number">2020</span>,</div>
+            <div>totalExp: <span class="number">2008</span></div>
+        </div>
+        <div>};</div>
     </div>
-    <p>};</p>
 
     <h2>Introduction</h2>
-    <p>Hello, my name is Filipe - a blockchain engineer building the future of DeFi.</p>
-    <p>I architect and ship production DeFi protocols handling millions in TVL.</p>
-    <p>From cross-chain yield optimization to AI-driven lending markets, I transform complex financial primitives into secure, scalable smart contract systems.</p>
-    <p>Previously built 300+ enterprise solutions over 12 years before going all-in on blockchain in 2020.</p>
-
-    <h2>Skills</h2>
-    <p><span class="comment">// DeFi Expertise</span></p>
-    <div class="list-item">Smart Contract Development</div>
-    <div class="list-item">Protocol Architecture</div>
-    <div class="list-item">DeFi Integration</div>
-    <div class="list-item">Risk Management Systems</div>
-
-    <p style="margin-top: 1.5rem;"><span class="comment">// Leadership</span></p>
-    <div class="list-item">Technical Team Management</div>
-    <div class="list-item">Strategic Planning</div>
-    <div class="list-item">Project Delivery</div>
-    <div class="list-item">Enterprise Solutions</div>
+    <p>Hello, my name is <strong>Filipe</strong> — a blockchain engineer architecting the future of decentralized finance.</p>
+    <p>I build production-grade DeFi protocols handling millions in TVL, transforming complex financial primitives into secure, scalable smart contract systems.</p>
+    <p>Currently leading technical initiatives at <strong>Keyrock</strong>, focusing on institutional DeFi infrastructure.</p>
 
     <h2 id="experience">Experience</h2>
-    <p>→ <span class="keyword">Techlead</span> @ <span class="company">Keyrock</span> <span class="date">2025 - present </span></p>
-    <div class="indent">
-        <p>Contributing to institutional-grade blockchain solutions</p>
+    
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">Techlead @ Keyrock</span>
+            <span class="item-meta">2025 — Present</span>
+        </div>
+        <p>Leading the architectural design and implementation of institutional-grade DeFi solutions and market-making infrastructure.</p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="keyword">CTO</span> @ <span class="company">Veris Labs</span> <span class="date">2023 - 2025</span></p>
-    <div class="indent">
-        <p>Leading Unlockd, maxAPY, and Khemia DeFi protocols</p>
-        <p>Architecting RWA lending protocol with AI-driven pricing</p>
-        <p>Managing technical team and protocol development</p>
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">CTO @ Veris Labs</span>
+            <span class="item-meta">2023 — 2025</span>
+        </div>
+        <p>Led development of Unlockd, maxAPY, and Khemia. Architected RWA lending protocols with AI-driven pricing and managed high-performance technical teams.</p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="keyword">Tech Lead</span> @ <span class="company">Themar Solutions</span> <span class="date">2022 - 2023</span></p>
-    <div class="indent">
-        <p>Directed research for protocol integrations</p>
-        <p>Managed development processes and code reviews</p>
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">Tech Lead @ Themar Solutions</span>
+            <span class="item-meta">2022 — 2023</span>
+        </div>
+        <p>Directed protocol integration research and managed end-to-end development cycles.</p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="keyword">Blockchain Developer</span> @ <span class="company">Self-employed & TH.0</span> <span class="date">2021 - 2022</span></p>
-    <div class="indent">
-        <p>Developed token systems and NFT infrastructure</p>
-        <p>Created smart contracts and DeFi integrations</p>
+    <h2 id="kam-protocol">KAM Protocol (Keyrock)</h2>
+    <p class="section-desc">Core infrastructure for the KAM ecosystem — institutional asset management and account abstraction.</p>
+
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">KAM / kToken0</span>
+            <span class="item-meta">Active</span>
+        </div>
+        <p>
+            <span class="tag">ERC7540</span><span class="tag">LayerZero</span><span class="tag">OFT</span>
+        </p>
+        <p>Institutional asset management protocol with a dual-track architecture and LayerZero-based cross-chain token infrastructure.</p>
+        <p><a href="https://github.com/turingcapitalgroup/kam">KAM Core</a> · <a href="https://github.com/turingcapitalgroup/kToken0">kToken0</a></p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="keyword">CEO & ERP Consultant</span> @ <span class="company">FIXUS</span> <span class="date">2008 - 2020</span></p>
-    <div class="indent">
-        <p>Led company operations and technology initiatives</p>
-        <p>Implemented 300+ enterprise ERP solutions</p>
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">Smart Account Infrastructure</span>
+            <span class="item-meta">Active</span>
+        </div>
+        <p>
+            <span class="tag">ERC4337</span><span class="tag">UUPS</span><span class="tag">Account Abstraction</span>
+        </p>
+        <p>Minimalist smart account implementations and upgradeable factory patterns for institutional wallet management.</p>
+        <p><a href="https://github.com/turingcapitalgroup/minimal-smart-account">Minimal Smart Account</a> · <a href="https://github.com/turingcapitalgroup/minimal-uups-factory">UUPS Factory</a></p>
     </div>
 
-    <h2 id="projects">Projects</h2>
-    <p>→ <span class="function">KAM</span> <span class="date">2025</span> <span class="tag">ERC7540</span> <span class="tag">Yield</span></p>
-    <div class="indent">
-        <p>institutional asset management protocol that implements a dual-track architecture for both institutional and retail access</p>
-        <p><a href="https://github.com/turingcapitalgroup/kam">github.com/turingcapitalgroup/kam</a></p>
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">KAM Ecosystem <span class="status-audit">[UNDER AUDIT]</span></span>
+            <span class="item-meta">Q1 2026</span>
+        </div>
+        <p>
+            <span class="tag">Settler</span><span class="tag">Paymaster</span><span class="tag">Wallet</span>
+        </p>
+        <p>Essential infrastructure components for transaction settlement and gas sponsorship within the KAM protocol.</p>
+        <p>
+            <a href="https://github.com/turingcapitalgroup/kam-settler">kam-settler</a> · 
+            <a href="https://github.com/turingcapitalgroup/kam-paymaster">kam-paymaster</a> · 
+            <a href="https://github.com/turingcapitalgroup/metawallet">metawallet</a>
+        </p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="function">kToken0</span> <span class="date">2025</span> <span class="tag">OFT</span> <span class="tag">Cross-chain</span></p>
-    <div class="indent">
-        <p>LayerZero-based cross-chain token infrastructure that enables the KAM protocol's kTokens to operate seamlessly across multiple blockchain networks.</p>
-        <p><a href="https://github.com/turingcapitalgroup/kToken0">github.com/turingcapitalgroup/kToken0</a></p>
+    <h2 id="past-projects">DeFi History</h2>
+    
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">MetaVault <span class="status-live">[LIVE]</span></span>
+            <span class="item-meta">2025</span>
+        </div>
+        <p><span class="tag">ERC7540</span><span class="tag">Cross-chain</span></p>
+        <p>First cross-chain vault optimizing yield across 9 chains by integrating curated ERC4626 strategies.</p>
+        <p><a href="https://github.com/VerisLabs/MetaVault">GitHub</a></p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="function">MetaVault</span> <span class="date">2025</span> <span class="tag">ERC7540</span> <span class="tag">Cross-chain</span><span class="status">[LIVE]</span></p>
-    <div class="indent">
-        <p>First cross-chain ERC7540 vault optimizing yield farming across</p>
-        <p>thousands of curated strategies on 9 chains integrating any ERC4626</p>
-        <p><a href="https://github.com/VerisLabs/MetaVault">github.com/VerisLabs/MetaVault</a></p>
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">maxAPY v2 <span class="status-live">[LIVE]</span></span>
+            <span class="item-meta">2024</span>
+        </div>
+        <p><span class="tag">DeFi</span><span class="tag">Yield</span></p>
+        <p>Yield optimization protocol aggregating top-tier DeFi platforms for maximized returns.</p>
+        <p><a href="https://app.maxapy.io/">App</a></p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="function">HurdleRateOracle</span> <span class="date">2025</span> <span class="tag">Chainlink</span> <span class="tag">Oracle</span><span class="status">[LIVE]</span></p>
-    <div class="indent">
-        <p>Chainlink Functions for Lido/USDY APY data</p>
-        <p><a href="https://github.com/VerisLabs/hurdleRateOracle">github.com/VerisLabs/hurdleRateOracle</a></p>
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">Unlockd v2 <span class="status-live">[LIVE]</span></span>
+            <span class="item-meta">2023</span>
+        </div>
+        <p><span class="tag">RWA</span><span class="tag">AI</span></p>
+        <p>Real-World Asset lending protocol utilizing AI models for precise asset pricing.</p>
+        <p><a href="https://unlockd.finance/">Website</a></p>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="function">SharePriceOracle</span> <span class="date">2024</span> <span class="tag">LayerZero</span> <span class="tag">Cross-chain</span><span class="status">[LIVE]</span></p>
-    <div class="indent">
-        <p>Cross-chain ERC4626 share price synchronization</p>
-        <p><a href="https://github.com/VerisLabs/SharePriceOracle">github.com/VerisLabs/SharePriceOracle</a></p>
+    <h2 id="contact">Contact</h2>
+    <p>Email: <a href="mailto:filipeepv@gmail.com">filipeepv@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/fepvenancio" target="_blank">@fepvenancio</a></p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/fven" target="_blank">/in/fven</a></p>
+
+    <div class="nav">
+        <a href="#top">/home</a>
+        <a href="#kam-protocol">/kam</a>
+        <a href="#past-projects">/history</a>
+        <a href="#contact">/contact</a>
     </div>
 
-    <p style="margin-top: 1.5rem;">→ <span class="function">maxAPY v2</span> <span class="date">2024</span> <span class="tag">DeFi</span> <span class="tag">Yield</span> <span class="status">[LIVE]</span></p>
-    <div class="indent">
-        <p>Yield optimization protocol aggregating DeFi platforms</p>
-        <p><a href="https://app.maxapy.io/">app.maxapy.io</a></p>
+    <div class="footer">
+        Last updated: March 2026
     </div>
-
-    <p style="margin-top: 1.5rem;">→ <span class="function">Unlockd v2</span> <span class="date">2023</span> <span class="tag">RWA</span> <span class="tag">AI</span> <span class="status">[LIVE]</span></p>
-    <div class="indent">
-        <p>RWA lending protocol with AI-driven pricing</p>
-        <p><a href="https://unlockd.finance/">unlockd.finance</a></p>
-    </div>
-
-    <p style="margin-top: 1.5rem;">→ <span class="function">NFTBatchTransfers</span> <span class="date">2023</span> <span class="tag">NFT</span> <span class="tag">Gas Optimization</span><span class="status">[LIVE]</span></p>
-    <div class="indent">
-        <p>Efficient batch NFT transfers in single transaction</p>
-        <p><a href="https://github.com/VerisLabs/NFTBatchTransfers">github.com/VerisLabs/NFTBatchTransfers</a></p>
-    </div>
-
-    <p style="margin-top: 1.5rem;">→ <span class="function">Unlockd v1</span> <span class="date">2022</span> <span class="tag">NFT</span> <span class="tag">Lending</span></p>
-    <div class="indent">
-        <p>NFT-backed lending protocol</p>
-        <p><a href="https://v1.unlockd.finance/dashboard">v1.unlockd.finance</a></p>
-    </div>
-
-    <p style="margin-top: 1.5rem;">→ <span class="function">The Lockeys</span> <span class="date">2022</span> <span class="tag">NFT</span> <span class="tag">Collection</span></p>
-    <div class="indent">
-        <p>Sold-out NFT collection deployment</p>
-        <p><a href="https://the-lockeys.unlockd.finance/">the-lockeys.unlockd.finance</a></p>
-    </div>
-
-    <h2 id="get-in-touch">Get in touch</h2>
-    <p>→ email: <a href="mailto:filipeepv@gmail.com">filipeepv@gmail.com</a></p>
-    <p>→ github: <a href="https://github.com/fepvenancio" target="_blank" rel="noopener noreferrer">@fepvenancio</a></p>
-    <p>→ linkedin: <a href="https://linkedin.com/in/fven" target="_blank" rel="noopener noreferrer">/in/fven</a></p>
-
-    <h2>Explore</h2>
-    <p><a href="#top">/home</a> <a href="#experience">/experience</a> <a href="#projects">/projects</a> <a href="#get-in-touch">/contact</a></p>
-
-    <p style="margin-top: 3rem; color: var(--comment);">Last updated: 14 October 2025</p>
 </body>
 </html>
