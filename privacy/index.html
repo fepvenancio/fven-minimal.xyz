@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Privacy Toolkit (2026) | fven.xyz</title>
+    <meta name="description" content="Developer cheat sheet for Web3 privacy — ZK, TEEs, FHE, tooling, and regulatory quick-ref. Leeds Blockchain Conference handout.">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fven.xyz/privacy">
+    <meta property="og:title" content="Web3 Privacy Toolkit (2026)">
+    <meta property="og:description" content="Developer cheat sheet — ZK, TEEs, FHE, tooling, and regulatory quick-ref.">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Web3 Privacy Toolkit (2026)">
+    <meta name="twitter:description" content="Developer cheat sheet — ZK, TEEs, FHE, tooling, and regulatory quick-ref.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050505;
+            --surface: #0a0a0a;
+            --border: #141414;
+            --fg: #fafafa;
+            --fg-muted: #71717a;
+            --accent: #10b981;
+            --accent-muted: #064e3b;
+            --audit: #f59e0b;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            font-size: 15px;
+            padding: 4rem 2rem;
+            max-width: 680px;
+            margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: -0.01em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body > * {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        h1 {
+            font-family: var(--font-mono);
+            color: var(--fg-muted);
+            font-size: 0.75rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--fg-muted);
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 0.9rem;
+            color: var(--fg);
+            font-weight: 500;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--fg-muted);
+        }
+
+        strong { color: var(--fg); font-weight: 500; }
+
+        a {
+            color: var(--fg);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+        a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--fg);
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+        }
+
+        .subtitle-meta {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: #52525b;
+            margin-bottom: 2rem;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            font-size: 0.85rem;
+        }
+
+        thead th {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #52525b;
+            text-align: left;
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        tbody td {
+            padding: 0.6rem 0.75rem;
+            color: var(--fg-muted);
+            border-bottom: 1px solid #0f0f0f;
+        }
+
+        tbody td:first-child {
+            color: var(--fg);
+            font-weight: 500;
+        }
+
+        .maturity-production { color: var(--accent); }
+        .maturity-depends { color: var(--audit); }
+        .maturity-early { color: #f472b6; }
+
+        /* Code blocks */
+        .code-block {
+            font-family: var(--font-mono);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            overflow-x: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .code-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: #3f3f46;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .keyword { color: #f472b6; opacity: 0.9; }
+        .function { color: #34d399; opacity: 0.9; }
+        .string { color: #fbbf24; opacity: 0.9; }
+        .comment { color: #3f3f46; font-style: italic; }
+
+        /* Tool cards */
+        .tool {
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .tool-name {
+            font-weight: 500;
+            color: var(--fg);
+            font-size: 0.95rem;
+        }
+
+        .tool p {
+            font-size: 0.85rem;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            background: #111;
+            color: #52525b;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            margin-right: 0.5rem;
+            display: inline-block;
+            border: 1px solid #1a1a1a;
+        }
+
+        /* Regulatory items */
+        .reg-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .reg-label {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--audit);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Equation block */
+        .equation {
+            font-family: var(--font-mono);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+        }
+
+        .equation-explain {
+            font-size: 0.8rem;
+            color: #52525b;
+            margin-top: 0.75rem;
+            text-align: left;
+        }
+
+        .equation-explain span {
+            color: var(--fg-muted);
+        }
+
+        /* Next steps */
+        .steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .steps li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--fg-muted);
+            font-size: 0.85rem;
+        }
+
+        .steps li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        /* Quote */
+        blockquote {
+            border-left: 2px solid var(--accent);
+            padding-left: 1rem;
+            margin: 2.5rem 0;
+            color: var(--fg-muted);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .nav {
+            margin-top: 5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+        }
+        .nav a { border: none; color: #52525b; }
+        .nav a:hover { color: var(--fg); }
+
+        .footer {
+            margin-top: 4rem;
+            color: #27272a;
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        @media (max-width: 640px) {
+            body { padding: 3rem 1.5rem; }
+            table { font-size: 0.75rem; }
+            thead th, tbody td { padding: 0.4rem 0.5rem; }
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: #111;
+                max-width: 100%;
+                padding: 1rem;
+                font-size: 11px;
+            }
+            .nav, .footer { display: none; }
+            a { color: #111; border-bottom: none; }
+            .code-block, .equation {
+                background: #f5f5f5;
+                border-color: #ddd;
+                box-shadow: none;
+            }
+            h2 { color: #333; border-bottom-color: #ddd; }
+            p, tbody td, .steps li { color: #333; }
+            .tool { border-left-color: #ddd; }
+        }
+    </style>
+</head>
+<body id="top">
+    <h1>handout</h1>
+
+    <div class="subtitle">The Web3 Privacy Toolkit (2026 Edition)</div>
+    <div class="subtitle-meta">Leeds Blockchain Conference — Filipe (<a href="https://x.com/filipeV3nancio">@filipeV3nancio</a> | <a href="https://fven.xyz">fven.xyz</a>)</div>
+
+    <p>This is a companion to my talk. Not a whitepaper, not a sales pitch — just the stuff you'd actually want open in a tab if you sat down to build something private this week.</p>
+
+    <h2 id="stack">1. The Core Stack</h2>
+
+    <p>Different privacy problems need different crypto primitives. Here's where things stand:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tech</th>
+                <th>Good For</th>
+                <th>Verification</th>
+                <th>Maturity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ZK-SNARKs</td>
+                <td>Private transfers, identity proofs</td>
+                <td>&lt; 10ms</td>
+                <td class="maturity-production">Production (Noir/Circom)</td>
+            </tr>
+            <tr>
+                <td>TEEs (SGX)</td>
+                <td>Dark pools, MEV protection</td>
+                <td>Native</td>
+                <td class="maturity-depends">Hardware-dependent</td>
+            </tr>
+            <tr>
+                <td>FHE</td>
+                <td>On-chain confidential compute</td>
+                <td>~1s+</td>
+                <td class="maturity-early">Early (Fhenix/Zama)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Quick take: ZK-SNARKs are the only one ready for real users today. TEEs work but you're trusting Intel. FHE is exciting but slow — keep an eye on it, don't ship on it yet.</p>
+
+    <h2 id="tooling">2. What to Build With Today</h2>
+
+    <h3>A. Noir 1.0</h3>
+    <div class="tool">
+        <p><span class="tag">Aztec</span><span class="tag">ZK DSL</span><span class="tag">Rust-like</span></p>
+        <p>Noir is to ZK circuits what Solidity was to the EVM — the thing that made it accessible. You write Rust-like code, it compiles to a ZK circuit. No cryptography PhD required.</p>
+        <p>If you want private smart contracts on Aztec's network, this is where you start.</p>
+        <div class="code-block">
+            <span class="code-label">install</span>
+            <span class="comment">// github.com/aztec-protocol/noir</span><br>
+            <span class="function">curl</span> -L noirup.dev | <span class="function">bash</span>
+        </div>
+    </div>
+
+    <h3>B. Railgun SDK</h3>
+    <div class="tool">
+        <p><span class="tag">DeFi Privacy</span><span class="tag">L1/L2</span><span class="tag">PPOI</span></p>
+        <p>The go-to for adding privacy to existing DeFi. Swaps, transfers, LP positions — all shielded. The important bit: it has <strong>Private Proof of Innocence</strong> baked in, so you can stay private <em>and</em> compliant after the 2025 regulatory shifts.</p>
+        <div class="code-block">
+            <span class="code-label">install</span>
+            <span class="keyword">npm</span> install <span class="string">@railgun-community/wallet-sdk</span>
+        </div>
+    </div>
+
+    <h3>C. Kohaku SDK</h3>
+    <div class="tool">
+        <p><span class="tag">Ethereum Foundation</span><span class="tag">Stealth Addresses</span><span class="tag">ERC-5564</span></p>
+        <p>The EF's official privacy toolkit. Gives you stealth addresses and ZK-compliance modules you can drop into any wallet or dApp. Three of the four core modules (Stealth, Compliance, Registry) are audited and live.</p>
+        <div class="code-block">
+            <span class="code-label">quickstart</span>
+            <span class="keyword">npx</span> <span class="function">kohaku-init</span> <span class="string">my-private-app</span>
+        </div>
+    </div>
+
+    <h2 id="regulation">3. Regulatory Quick-Ref (UK/EU 2026)</h2>
+
+    <div class="reg-item">
+        <div class="reg-label">MiCA (EU)</div>
+        <p>All assets need to support <strong>View Keys</strong> or <strong>ZK-Compliance Proofs</strong> for sanctions screening. Deadline: July 2026. If your protocol can't prove a transaction isn't from a sanctioned address without revealing the sender, you have a problem.</p>
+    </div>
+
+    <div class="reg-item">
+        <div class="reg-label">FCA (UK)</div>
+        <p>Focused on market abuse and MEV. Using privacy tools to hide wash trading = illegal. Using them to protect against front-running = encouraged. The line is intent, not the tool.</p>
+    </div>
+
+    <div class="reg-item">
+        <div class="reg-label">US Safe Harbor (March 2025)</div>
+        <p>Hosting decentralised, non-custodial privacy code is protected activity. Writing Tornado Cash is fine. Running a mixer with a fee and no compliance = not fine.</p>
+    </div>
+
+    <h2 id="math">4. The "HTTPS Moment"</h2>
+
+    <p>The pitch from my talk: privacy on-chain is going through the same transition HTTPS did. It went from "sketchy" to "default". Here's the core equation if you want to reason about ZK proofs:</p>
+
+    <div class="equation">
+        V(S, &pi;, P) = 1
+        <div class="equation-explain">
+            <span><strong>S</strong> = public statement</span> ("this tx is valid")<br>
+            <span><strong>&pi;</strong> = the proof</span> (the SNARK itself)<br>
+            <span><strong>P</strong> = public input</span> ("amount &gt; 0, sender has balance")<br><br>
+            Privacy happens because the <strong>witness</strong> (the secret input — who you are, how much you have) is never revealed to the verifier.
+        </div>
+    </div>
+
+    <p>That's it. Everything else — Noir circuits, Railgun shielding, stealth addresses — is just a nicer interface for constructing that &pi;.</p>
+
+    <h2 id="next">Next Steps</h2>
+
+    <ul class="steps">
+        <li>Clone the Kohaku starter: <strong>npx kohaku-init my-private-app</strong></li>
+        <li>Join the Aztec Discord — it's where the Noir devs actually hang out</li>
+        <li>Read the <strong>"Privacy Pools" paper</strong> — it's the theoretical foundation for how Railgun and Kohaku handle compliance</li>
+        <li>If you're at the conference, come say hi. I'll be around all day</li>
+    </ul>
+
+    <blockquote>
+        "Privacy is not about hiding. It's about ensuring that whoever has the information doesn't have all the power."
+    </blockquote>
+
+    <div class="nav">
+        <a href="/">/home</a>
+        <a href="#stack">/stack</a>
+        <a href="#tooling">/tooling</a>
+        <a href="#regulation">/regulation</a>
+        <a href="#math">/math</a>
+    </div>
+
+    <div class="footer">
+        Leeds Blockchain Conference 2026 — fven.xyz/privacy
+    </div>
+</body>
+</html>
