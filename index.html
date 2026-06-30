@@ -397,18 +397,18 @@
             <span class="item-meta">Active</span>
         </div>
         <p>
-            <span class="tag">ERC7579</span><span class="tag">ERC4626</span><span class="tag">Account Abstraction</span>
+            <span class="tag">ERC4337</span><span class="tag">ERC1967</span><span class="tag">Account Abstraction</span>
         </p>
-        <p>Custom smart accounts for on-chain strategies. Keeps wallet logic minimal and auditable.</p>
+        <p>A gas-efficient smart account and factory system. Keeps logic minimal and highly auditable.</p>
         <p><a href="https://github.com/turingcapitalgroup/minimal-smart-account">Minimal Smart Account</a> · <a href="https://github.com/turingcapitalgroup/minimal-uups-factory">UUPS Factory</a></p>
         
         <details class="project-details">
             <summary>View Architecture & Details</summary>
             <div class="details-content">
-                <p><strong>The Genesis:</strong> We needed a dedicated wallet for each on-chain strategy. This allows any vault using a shared strategy to simply deposit into the wallet and receive its own distinct shares.</p>
-                <p><strong>Architecture & Approach:</strong> I engineered our own custom ERC-7579 smart account and cleverly embedded an ERC-4626 vault directly into it. Quants utilize these wallets and their hooks to autonomously deploy capital into desired strategies.</p>
-                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Vercel, Cloudflare, Fordefi (Wallets).</p>
-                <p><strong>The Outcome:</strong> Massive operational agility and extreme accounting accuracy for strategy investments.</p>
+                <p><strong>The Genesis:</strong> Standard wallets were too rigid, and existing factory patterns often contained admin backdoors. We needed a highly efficient, minimal smart wallet infrastructure that could be deployed identically across all chains using CREATE2.</p>
+                <p><strong>Architecture & Approach:</strong> I built `minimal-smart-account` with batch execution and registry-based authorization. I paired it with `minimal-uups-factory`, a factory that deploys ERC-1967 proxies and completely removes itself from the picture afterward, ensuring upgrades only happen via the proxy itself.</p>
+                <p><strong>Tech Stack:</strong> Solidity, Assembly (Solady), Foundry, Soldeer.</p>
+                <p><strong>The Outcome:</strong> A trust-minimized, multi-chain-ready smart account foundation devoid of admin backdoors, delivering massive gas savings and operational security for the protocol.</p>
             </div>
         </details>
     </div>
