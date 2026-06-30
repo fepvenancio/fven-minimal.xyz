@@ -375,16 +375,16 @@
             <span class="item-meta">2026</span>
         </div>
         <p>
-            <span class="tag">ERC7540</span><span class="tag">LayerZero</span><span class="tag">OFT</span>
+            <span class="tag">Custom Vaults</span><span class="tag">Batching</span><span class="tag">LayerZero</span><span class="tag">OFT</span>
         </p>
-        <p>ERC7540 vault with OFT tokens that bridge via LayerZero. Deposit on one chain, get yield exposure across many.</p>
+        <p>Custom batched vault with OFT tokens bridging via LayerZero. Built a proprietary batching system to heavily optimize gas for requests and claims.</p>
         <p><a href="https://github.com/turingcapitalgroup/kam">KAM Core</a> · <a href="https://github.com/turingcapitalgroup/kToken0">kToken0</a></p>
         
         <details class="project-details">
             <summary>View Architecture & Details</summary>
             <div class="details-content">
                 <p><strong>The Genesis:</strong> kToken0 is a protocol-specific stablecoin for KAM. The <code>kMinter</code> contract handles minting and burning, creating a 1:1 mapped kToken for every accepted asset (e.g., kBTC, kUSDC).</p>
-                <p><strong>Architecture & Approach:</strong> I chose LayerZero (OFT v2) over CCIP because it's much easier to build around and message. We controlled the DVNs entirely, guaranteeing no possibility of hacking the messaging system while avoiding the complex DON Chainlink architecture.</p>
+                <p><strong>Architecture & Approach:</strong> Instead of relying on standards like ERC-7540, we built our own proprietary vault architecture using a highly optimized batching system. This saves users massive amounts of gas by optimizing deposit requests and claims. For bridging, I chose LayerZero (OFT v2) over CCIP because of the flexibility it offered; we controlled the DVNs entirely, guaranteeing no possibility of hacking the messaging system.</p>
                 <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Vercel, Cloudflare, Fordefi (Wallets), Elliptic (KYC), Blockaid (Monitoring).</p>
                 <p><strong>The Outcome:</strong> Delivered a highly secure, frictionless cross-chain stablecoin minting vault alongside automated strategy vaults.</p>
             </div>
@@ -454,7 +454,7 @@
             <summary>View Architecture & Details</summary>
             <div class="details-content">
                 <p><strong>The Genesis:</strong> We aimed to build the first fully on-chain strategies vault to generate maximum yield, achieving a verifiable and stable 1% yield PER MONTH on the USDC vault.</p>
-                <p><strong>Architecture & Approach:</strong> We leveraged <strong>Superform</strong> to deploy funds across strategies, and <strong>LI.FI</strong> so users could deposit any token from any chain and receive MetaVault tokens. We integrated proprietary quant algorithms and AI models to rigorously verify the strategies we deposited into.</p>
+                <p><strong>Architecture & Approach:</strong> We leveraged <strong>Superform</strong> to deploy funds across strategies, and <strong>LI.FI</strong> so users could deposit any token from any chain. We built a custom <a href="https://github.com/turingcapitalgroup/hurdle-rate-oracle" target="_blank">hurdle rate oracle</a> to ensure we only charged fees if our vault's rate beat T-Bills (for USDC) or Lido (for ETH). We also built a proprietary cross-chain share-price oracle to securely bridge the exact share prices of deposited strategies back to the base chain, preventing manipulation.</p>
                 <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Cloudflare (Backend), Vercel, Safe Wallets.</p>
                 <p><strong>The Outcome:</strong> A brilliant UX where a specialized strategy index controlled cross-chain flows. The massive success of this protocol directly led to Veris Labs being acquired by Keyrock, where our core team transitioned to build the KAM Protocol.</p>
             </div>
