@@ -239,6 +239,59 @@
             color: #52525b;
         }
 
+        /* Details & Accordion Styles */
+        details.project-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #1a1a1a;
+        }
+
+        details.project-details summary {
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--fg-muted);
+            list-style: none; /* Hide default arrow */
+            user-select: none;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        
+        details.project-details summary:hover {
+            color: var(--fg);
+        }
+
+        details.project-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details.project-details summary::before {
+            content: "[+] ";
+            color: var(--accent);
+        }
+
+        details.project-details[open] summary::before {
+            content: "[-] ";
+            color: var(--accent);
+        }
+
+        details.project-details .details-content {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #a1a1aa;
+            padding-left: 1rem;
+            border-left: 1px solid #1a1a1a;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        details.project-details .details-content p {
+            margin-bottom: 0.75rem;
+        }
+        
+        details.project-details .details-content p:last-child {
+            margin-bottom: 0;
+        }
+
         /* Scrollbar styling */
         ::-webkit-scrollbar {
             width: 4px;
@@ -326,6 +379,16 @@
         </p>
         <p>ERC7540 vault with OFT tokens that bridge via LayerZero. Deposit on one chain, get yield exposure across many.</p>
         <p><a href="https://github.com/turingcapitalgroup/kam">KAM Core</a> · <a href="https://github.com/turingcapitalgroup/kToken0">kToken0</a></p>
+        
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> kToken0 is a protocol-specific stablecoin for KAM. The <code>kMinter</code> contract handles minting and burning, creating a 1:1 mapped kToken for every accepted asset (e.g., kBTC, kUSDC).</p>
+                <p><strong>Architecture & Approach:</strong> I chose LayerZero (OFT v2) over CCIP because it's much easier to build around and message. We controlled the DVNs entirely, guaranteeing no possibility of hacking the messaging system while avoiding the complex DON Chainlink architecture.</p>
+                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Vercel, Cloudflare, Fordefi (Wallets), Elliptic (KYC), Blockaid (Monitoring).</p>
+                <p><strong>The Outcome:</strong> Delivered a highly secure, frictionless cross-chain stablecoin minting vault alongside automated strategy vaults.</p>
+            </div>
+        </details>
     </div>
 
     <div class="item">
@@ -334,10 +397,20 @@
             <span class="item-meta">Active</span>
         </div>
         <p>
-            <span class="tag">ERC4337</span><span class="tag">UUPS</span><span class="tag">Account Abstraction</span>
+            <span class="tag">ERC7579</span><span class="tag">ERC4626</span><span class="tag">Account Abstraction</span>
         </p>
-        <p>ERC4337 smart accounts with a UUPS-upgradeable factory. Keeps wallet logic minimal and auditable.</p>
+        <p>Custom smart accounts for on-chain strategies. Keeps wallet logic minimal and auditable.</p>
         <p><a href="https://github.com/turingcapitalgroup/minimal-smart-account">Minimal Smart Account</a> · <a href="https://github.com/turingcapitalgroup/minimal-uups-factory">UUPS Factory</a></p>
+        
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> We needed a dedicated wallet for each on-chain strategy. This allows any vault using a shared strategy to simply deposit into the wallet and receive its own distinct shares.</p>
+                <p><strong>Architecture & Approach:</strong> I engineered our own custom ERC-7579 smart account and cleverly embedded an ERC-4626 vault directly into it. Quants utilize these wallets and their hooks to autonomously deploy capital into desired strategies.</p>
+                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Vercel, Cloudflare, Fordefi (Wallets).</p>
+                <p><strong>The Outcome:</strong> Massive operational agility and extreme accounting accuracy for strategy investments.</p>
+            </div>
+        </details>
     </div>
 
     <div class="item">
@@ -354,6 +427,16 @@
             <a href="https://github.com/turingcapitalgroup/kam-paymaster">kam-paymaster</a> · 
             <a href="https://github.com/turingcapitalgroup/metawallet">metawallet</a>
         </p>
+        
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> The vision was to push everything possible on-chain, drastically simplifying the frontend and backend to deliver the absolute best UX.</p>
+                <p><strong>Architecture & Approach:</strong> A sophisticated trinity. The <strong>Paymaster</strong> lets users pay gas directly in vault tokens. The <strong>Settler</strong> handles vault settlements using hardcoded math to ensure absolute security—even a compromised backend can't manipulate values (protected by delta-checks requiring extra signatures). The <strong>Wallets</strong> handle strategy funds and CEFFU transfers, functioning as ERC-4626s themselves so shares can be transferred natively between vaults without gas-heavy deposit/withdrawals.</p>
+                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Vercel, Cloudflare, Fordefi (Wallets), Elliptic (KYC), Blockaid (Monitoring).</p>
+                <p><strong>The Outcome:</strong> A bulletproof, gas-abstracted ecosystem. We steered the codebase through an initial audit with Ginger Security, followed by a rigorous secondary audit with Trail of Bits.</p>
+            </div>
+        </details>
     </div>
 
     <h2 id="past-projects">DeFi History</h2>
@@ -363,9 +446,19 @@
             <span class="item-title">MetaVault <span class="status-live">[LIVE]</span></span>
             <span class="item-meta">2025</span>
         </div>
-        <p><span class="tag">ERC7540</span><span class="tag">Cross-chain</span></p>
-        <p>Cross-chain ERC7540 vault. Pulls yield from ERC4626 strategies across 9 chains.</p>
+        <p><span class="tag">Superform</span><span class="tag">LI.FI</span><span class="tag">Cross-chain</span></p>
+        <p>The first fully on-chain strategies vault. Pulls yield from strategies across 9 chains.</p>
         <p><a href="https://github.com/VerisLabs/MetaVault">GitHub</a></p>
+        
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> We aimed to build the first fully on-chain strategies vault to generate maximum yield, achieving a verifiable and stable 1% yield PER MONTH on the USDC vault.</p>
+                <p><strong>Architecture & Approach:</strong> We leveraged <strong>Superform</strong> to deploy funds across strategies, and <strong>LI.FI</strong> so users could deposit any token from any chain and receive MetaVault tokens. We integrated proprietary quant algorithms and AI models to rigorously verify the strategies we deposited into.</p>
+                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), Foundry, Soldeer, Cloudflare (Backend), Vercel, Safe Wallets.</p>
+                <p><strong>The Outcome:</strong> A brilliant UX where a specialized strategy index controlled cross-chain flows. The massive success of this protocol directly led to Veris Labs being acquired by Keyrock, where our core team transitioned to build the KAM Protocol.</p>
+            </div>
+        </details>
     </div>
 
     <div class="item">
@@ -374,8 +467,18 @@
             <span class="item-meta">2024</span>
         </div>
         <p><span class="tag">DeFi</span><span class="tag">Yield</span></p>
-        <p>Yield aggregator. Routes deposits across DeFi protocols to chase the best rates.</p>
+        <p>Yield aggregator. Routes deposits across major DeFi protocols to chase the best rates.</p>
         <p><a href="https://app.maxapy.io/">App</a></p>
+        
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> We wanted to tap into the deepest liquidity and highest yields in DeFi by deploying capital across the biggest protocols (Curve, Uniswap, Convex, Yearn).</p>
+                <p><strong>Architecture & Approach:</strong> We built 4 specialized vaults (2 for Polygon, 2 for Mainnet supporting ETH and USDC). For each chain, we built complex custom integrations to route money into diverse strategies.</p>
+                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), React, Google Serverless, Foundry, Vercel, Safe Wallets.</p>
+                <p><strong>The Outcome:</strong> maxAPY v2 served as the architectural proving ground that eventually evolved into the cross-chain perfection of MetaVault.</p>
+            </div>
+        </details>
     </div>
 
     <div class="item">
@@ -383,9 +486,19 @@
             <span class="item-title">Unlockd v2 <span class="status-live">[LIVE]</span></span>
             <span class="item-meta">2023</span>
         </div>
-        <p><span class="tag">RWA</span><span class="tag">AI</span></p>
-        <p>Borrow against RWAs and NFTs. ML models handle the appraisals.</p>
+        <p><span class="tag">RWA</span><span class="tag">Safe</span></p>
+        <p>Borrow against RWAs and NFTs via Safe wallets, retaining asset utility.</p>
         <p><a href="https://unlockd.finance/">Website</a></p>
+        
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> Users wanted to borrow against RWAs (real estate, gaming assets, stocks, watches) without giving up the utility of those assets. We originally started building this while at Themar Solutions, but the core engineering team transitioned directly to the client (Veris Labs) to see it through to completion.</p>
+                <p><strong>Architecture & Approach:</strong> Users deploy a Safe wallet with us as a co-signer. Our signature acts as a lock/unlock mechanism for the NFTs. The lock prevents transferring the NFT out, but users can still use the wallet to prove ownership, claim airdrops, and vote in governance.</p>
+                <p><strong>Tech Stack:</strong> Solidity, TypeScript (Fullstack), React, AWS Kubernetes, Terraform, Foundry, Vercel, Safe Wallets.</p>
+                <p><strong>The Outcome:</strong> A beautiful, trust-minimized lending protocol. If a user defaults, we initiate an auction or use Reservoir integrations to liquidate the asset, all while the user retains full utility of their collateral until the last moment.</p>
+            </div>
+        </details>
     </div>
 
     <h2 id="contact">Contact</h2>
