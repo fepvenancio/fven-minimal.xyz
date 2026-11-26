@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filipe Venancio | DeFi Techlead</title>
+    <title>Filipe Venancio | Smart Contract Engineer</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <meta name="description" content="Filipe Venancio — Techlead @ Keyrock. DeFi, smart contracts, account abstraction.">
+    <meta name="description" content="Filipe Venancio — Smart Contract Engineer @ State Street. DeFi, smart contracts, account abstraction.">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fven.xyz/">
-    <meta property="og:title" content="Filipe Venancio | DEV">
-    <meta property="og:description" content="Techlead @ Keyrock. DeFi, smart contracts, account abstraction.">
+    <meta property="og:title" content="Filipe Venancio | Smart Contract Engineer">
+    <meta property="og:description" content="Smart Contract Engineer @ State Street. DeFi, smart contracts, account abstraction.">
     <meta property="og:image" content="https://fven.xyz/fven-image.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://fven.xyz/">
-    <meta name="twitter:title" content="Filipe Venancio | DeFi Techlead">
-    <meta name="twitter:description" content="Techlead @ Keyrock. DeFi, smart contracts, account abstraction.">
+    <meta name="twitter:title" content="Filipe Venancio | Smart Contract Engineer">
+    <meta name="twitter:description" content="Smart Contract Engineer @ State Street. DeFi, smart contracts, account abstraction.">
     <meta name="twitter:image" content="https://fven.xyz/fven-image.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,7 +81,13 @@
             text-transform: uppercase;
         }
 
+        h2::before {
+            content: '# ';
+            color: var(--accent);
+        }
+
         h2 {
+            font-family: var(--font-mono);
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -131,7 +137,7 @@
         }
 
         .code-block::before {
-            content: 'fven.json';
+            content: 'fven.ts';
             display: block;
             font-size: 0.7rem;
             color: #3f3f46;
@@ -172,14 +178,14 @@
         .item-meta {
             font-family: var(--font-mono);
             font-size: 0.75rem;
-            color: #52525b;
+            color: var(--fg-muted);
         }
 
         .tag {
             font-family: var(--font-mono);
             font-size: 0.65rem;
             background: #111;
-            color: #52525b;
+            color: var(--fg-muted);
             padding: 0.15rem 0.4rem;
             border-radius: 3px;
             margin-right: 0.5rem;
@@ -218,7 +224,7 @@
 
         .nav a {
             border: none;
-            color: #52525b;
+            color: var(--fg-muted);
         }
 
         .nav a:hover {
@@ -227,7 +233,7 @@
 
         .footer {
             margin-top: 4rem;
-            color: #27272a;
+            color: #52525b;
             font-size: 0.7rem;
             font-family: var(--font-mono);
             letter-spacing: 0.02em;
@@ -237,7 +243,7 @@
             margin-top: -1.25rem;
             margin-bottom: 2.5rem;
             font-size: 0.85rem;
-            color: #52525b;
+            color: var(--fg-muted);
         }
 
         /* Details & Accordion Styles */
@@ -327,26 +333,33 @@
         <div><span class="keyword">const</span> <span class="function">filipe</span> = {</div>
         <div class="indent">
             <div>name: <span class="string">"Filipe Venancio"</span>,</div>
-            <div>role: <span class="string">"Techlead / Smart Contract Engineer"</span>,</div>
-            <div>status: <span class="string" style="color: var(--accent);">"Available for hire"</span>,</div>
+            <div>role: <span class="string">"Smart Contract Engineer"</span>,</div>
+            <div>company: <span class="string">"State Street"</span>,</div>
             <div>focus: <span class="string">"DeFi Infrastructure"</span>,</div>
             <div>defiSince: <span class="number">2020</span>,</div>
-            <div>totalExp: <span class="number">2008</span></div>
+            <div>codingSince: <span class="number">2008</span></div>
         </div>
         <div>};</div>
     </div>
 
     <h2>Introduction</h2>
     <p>I'm <strong>Filipe Venancio</strong>. I write smart contracts and build DeFi protocols. Been shipping code since 2008, got into crypto in 2020, and haven't really looked back.</p>
-    <p>Currently a Techlead at <strong>Keyrock</strong>, where I work on asset management infra, account abstraction, and cross-chain systems. Before that, I was CTO at Veris Labs building lending protocols and yield vaults.</p>
-    <p>I care about code that works, systems that don't lose people's money, and keeping things simple. <strong>I am open to new opportunities.</strong></p>
+    <p>Currently a Smart Contract Engineer at <strong>State Street</strong>. Before that, I was Techlead at Keyrock, where I worked on asset management infra, account abstraction, and cross-chain systems, and CTO at Veris Labs building lending protocols and yield vaults.</p>
+    <p>I care about code that works, systems that don't lose people's money, and keeping things simple.</p>
 
     <h2 id="experience">Experience</h2>
     
     <div class="item">
         <div class="item-header">
+            <span class="item-title">Smart Contract Engineer @ State Street</span>
+            <span class="item-meta">2026 — Present</span>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-header">
             <span class="item-title">Techlead @ Keyrock</span>
-            <span class="item-meta">2025 — Present</span>
+            <span class="item-meta">2025 — 2026</span>
         </div>
         <p>End-to-end architect of the KAM protocol. Designed the full system (smart contracts, frontend, backend), selected the tech stack, and managed a cross-functional team to build an institutional asset management ecosystem.</p>
     </div>
@@ -367,8 +380,32 @@
         <p>Led deep technical R&D for complex protocol integrations and hands-on smart contract development.</p>
     </div>
 
+    <h2 id="standards">Standards</h2>
+
+    <div class="item">
+        <div class="item-header">
+            <span class="item-title">ERC-8473: uRWA Policy <span class="status-audit">[DRAFT]</span></span>
+            <span class="item-meta">2026</span>
+        </div>
+        <p>
+            <span class="tag">ERC-7943</span><span class="tag">RWA</span><span class="tag">Compliance</span>
+        </p>
+        <p>A standard interface between an ERC-7943 token and the external policy contract that makes its compliance decisions. The token asks the policy before every movement, and anything other than one fixed value rejects.</p>
+        <p><a href="https://github.com/ethereum/ERCs/pull/2128">ERC Pull Request</a> · <a href="https://ethereum-magicians.org/t/erc-8473-urwa-policy-interface/30048">Discussion</a> · <a href="https://github.com/fepvenancio/urwa-policy">Reference Implementation</a></p>
+
+        <details class="project-details">
+            <summary>View Architecture & Details</summary>
+            <div class="details-content">
+                <p><strong>The Genesis:</strong> ERC-7943 standardises what a permissioned token exposes, but leaves open how the token reaches its decisions. Every implementation invents its own interface to its compliance contract, so providers integrate with each token family separately and auditors re-derive the boundary every time.</p>
+                <p><strong>Architecture & Approach:</strong> For every movement (transfer, mint, burn, forced transfer) the token builds a <code>TransferContext</code>, labelled with the authority under which the movement happens, and asks the policy for a <code>bytes32</code> decision. Only <code>keccak256("TRANSFER_OK")</code> permits, so the boundary fails closed. The same policy answers <code>canSend</code>, <code>canReceive</code> and <code>canTransfer</code>, and stateful policies observe completed movements through an authenticated <code>afterTransfer</code> callback.</p>
+                <p><strong>Tech Stack:</strong> Solidity, Foundry.</p>
+                <p><strong>The Outcome:</strong> Assigned ERC-8473 and open for review in ethereum/ERCs. The reference implementation ships the interfaces, an example token and policy, a gas benchmark, and 171 tests with fuzzed pre-flight parity. It is not audited.</p>
+            </div>
+        </details>
+    </div>
+
     <h2 id="kam-protocol">KAM Protocol (Keyrock)</h2>
-    <p class="section-desc">What I'm building at Keyrock — asset management with smart accounts and cross-chain tokens.</p>
+    <p class="section-desc">What I built at Keyrock — asset management with smart accounts and cross-chain tokens.</p>
 
     <div class="item">
         <div class="item-header">
@@ -407,7 +444,7 @@
             <summary>View Architecture & Details</summary>
             <div class="details-content">
                 <p><strong>The Genesis:</strong> Standard wallets were too rigid, and existing factory patterns often contained admin backdoors. We needed a highly efficient, minimal smart wallet infrastructure that could be deployed identically across all chains using CREATE2.</p>
-                <p><strong>Architecture & Approach:</strong> I built `minimal-smart-account` with batch execution and registry-based authorization. I paired it with `minimal-uups-factory`, a factory that deploys ERC-1967 proxies and completely removes itself from the picture afterward, ensuring upgrades only happen via the proxy itself.</p>
+                <p><strong>Architecture & Approach:</strong> I built <code>minimal-smart-account</code> with batch execution and registry-based authorization. I paired it with <code>minimal-uups-factory</code>, a factory that deploys ERC-1967 proxies and completely removes itself from the picture afterward, ensuring upgrades only happen via the proxy itself.</p>
                 <p><strong>Tech Stack:</strong> Solidity, Assembly (Solady), Foundry, Soldeer.</p>
                 <p><strong>The Outcome:</strong> A trust-minimized, multi-chain-ready smart account foundation devoid of admin backdoors, delivering massive gas savings and operational security for the protocol.</p>
             </div>
@@ -464,7 +501,7 @@
 
     <div class="item">
         <div class="item-header">
-            <span class="item-title">maxAPY v2 <span class="status-audit" style="color: #71717a;">[SUNSETTED]</span></span>
+            <span class="item-title">maxAPY v2 <span class="status-audit" style="color: #71717a;">[SUNSET]</span></span>
             <span class="item-meta">2024</span>
         </div>
         <p><span class="tag">DeFi</span><span class="tag">Yield</span></p>
@@ -484,7 +521,7 @@
 
     <div class="item">
         <div class="item-header">
-            <span class="item-title">Unlockd v2 <span class="status-audit" style="color: #71717a;">[SUNSETTED]</span></span>
+            <span class="item-title">Unlockd v2 <span class="status-audit" style="color: #71717a;">[SUNSET]</span></span>
             <span class="item-meta">2023</span>
         </div>
         <p><span class="tag">RWA</span><span class="tag">Safe</span></p>
@@ -509,6 +546,7 @@
 
     <div class="nav">
         <a href="#top">/home</a>
+        <a href="#standards">/erc</a>
         <a href="#kam-protocol">/kam</a>
         <a href="#past-projects">/history</a>
         <a href="#contact">/contact</a>
@@ -516,7 +554,7 @@
     </div>
 
     <div class="footer">
-        Last updated: June 2026
+        Last updated: November 2026
     </div>
 </body>
 </html>

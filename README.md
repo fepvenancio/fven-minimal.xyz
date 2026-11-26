@@ -9,7 +9,7 @@ A minimalist, terminal-style CV website built with pure HTML/CSS.
 ## 💻 Tech Stack
 
 - Pure HTML5
-- CSS3 (Dracula color theme)
+- CSS3 (dark theme)
 - No JavaScript
 - No dependencies
 - Single file
