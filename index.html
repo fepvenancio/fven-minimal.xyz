@@ -384,14 +384,14 @@
 
     <div class="item">
         <div class="item-header">
-            <span class="item-title">ERC-8473: uRWA Policy <span class="status-audit">[DRAFT]</span></span>
+            <span class="item-title">ERC-8473: uRWA Policy <span class="status-live">[MERGED]</span></span>
             <span class="item-meta">2026</span>
         </div>
         <p>
             <span class="tag">ERC-7943</span><span class="tag">RWA</span><span class="tag">Compliance</span>
         </p>
         <p>A standard interface between an ERC-7943 token and the external policy contract that makes its compliance decisions. The token asks the policy before every movement, and anything other than one fixed value rejects.</p>
-        <p><a href="https://github.com/ethereum/ERCs/pull/2128">ERC Pull Request</a> · <a href="https://ethereum-magicians.org/t/erc-8473-urwa-policy-interface/30048">Discussion</a> · <a href="https://github.com/fepvenancio/urwa-policy">Reference Implementation</a></p>
+        <p><a href="https://eips.ethereum.org/EIPS/eip-8473">ERC-8473</a> · <a href="https://ethereum-magicians.org/t/erc-8473-urwa-policy-interface/30048">Discussion</a> · <a href="https://github.com/fepvenancio/urwa-policy">Reference Implementation</a></p>
 
         <details class="project-details">
             <summary>View Architecture & Details</summary>
@@ -399,7 +399,7 @@
                 <p><strong>The Genesis:</strong> ERC-7943 standardises what a permissioned token exposes, but leaves open how the token reaches its decisions. Every implementation invents its own interface to its compliance contract, so providers integrate with each token family separately and auditors re-derive the boundary every time.</p>
                 <p><strong>Architecture & Approach:</strong> For every movement (transfer, mint, burn, forced transfer) the token builds a <code>TransferContext</code>, labelled with the authority under which the movement happens, and asks the policy for a <code>bytes32</code> decision. Only <code>keccak256("TRANSFER_OK")</code> permits, so the boundary fails closed. The same policy answers <code>canSend</code>, <code>canReceive</code> and <code>canTransfer</code>, and stateful policies observe completed movements through an authenticated <code>afterTransfer</code> callback.</p>
                 <p><strong>Tech Stack:</strong> Solidity, Foundry.</p>
-                <p><strong>The Outcome:</strong> Assigned ERC-8473 and open for review in ethereum/ERCs. The reference implementation ships the interfaces, an example token and policy, a gas benchmark, and 171 tests with fuzzed pre-flight parity. It is not audited.</p>
+                <p><strong>The Outcome:</strong> Merged into ethereum/ERCs in November 2026 and published as ERC-8473, with Draft status. The reference implementation ships the interfaces, an example token and policy, a gas benchmark, and 171 tests with fuzzed pre-flight parity. It is not audited.</p>
             </div>
         </details>
     </div>
